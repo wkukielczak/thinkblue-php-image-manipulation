@@ -1,0 +1,7 @@
+# Meta files
+*~
+.DS_Store
+.idea/*
+vendor
+composer.lock
+composer.phar
