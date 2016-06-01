@@ -1,6 +1,7 @@
 <?php
 
-namespace Thinkblue\ImageManipulation\Transformation;
+namespace Thinkblue\ImageManipulation\Transformations;
+
 use Thinkblue\ImageManipulation\Meta\ImageMimeType;
 
 /**

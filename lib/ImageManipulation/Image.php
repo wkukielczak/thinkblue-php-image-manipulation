@@ -2,7 +2,7 @@
 
 namespace Thinkblue\ImageManipulation;
 
-use Thinkblue\ImageManipulation\Transformation\AbstractTransformation;
+use Thinkblue\ImageManipulation\Transformations\AbstractTransformation;
 use Thinkblue\ImageManipulation\Meta\ImageMimeType;
 
 /**
