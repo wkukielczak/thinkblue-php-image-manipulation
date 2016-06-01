@@ -10,7 +10,7 @@ use Thinkblue\ImageManipulation\Meta\ImageMimeType;
  *
  * Resize the image
  */
-class ResizeTransformation extends AbstractTransformation
+class Resize extends AbstractTransformation
 {
     /**
      * @var int
