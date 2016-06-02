@@ -20,7 +20,9 @@ namespace {
 
 namespace Thinkblue\ImageManipulation {
 
-    include 'Mocks.php';
+    use Thinkblue\ImageManipulation\Utils\TestHelper;
+
+    include 'Utils/Mocks.php';
 
     /**
      * Test Image class
@@ -30,6 +32,8 @@ namespace Thinkblue\ImageManipulation {
      */
     class ImageTest extends \PHPUnit_Framework_TestCase
     {
+        use TestHelper;
+
         public function setUp()
         {
             parent::setUp();
@@ -87,6 +91,57 @@ namespace Thinkblue\ImageManipulation {
             $this->assertTrue($exceptionThrown);
         }
 
+        // ----------------------------------------------------------------------------------------------- Get file info
+
+        public function testFileInfo()
+        {
+            $imageFileName = 'image';
+            $imageFileExtension = 'jpg';
+            $imageName = $imageFileName . '.' . $imageFileExtension;
+
+            $imagePath = $this->createImage($imageName);
+            $pathInfo = pathinfo($imagePath);
+
+            // Test three times to cover all the lines hidden by values lazy loading
+            $image1 = new Image($imagePath);
+            $this->assertEquals($imageName, $image1->getFileName());
+            $this->assertEquals($imageFileExtension, $image1->getFileExtension());
+            $this->assertEquals($pathInfo['dirname'], $image1->getFilePath());
+
+            $image2 = new Image($imagePath);
+            $this->assertEquals($imageFileExtension, $image2->getFileExtension());
+            $this->assertEquals($imageName, $image2->getFileName());
+            $this->assertEquals($pathInfo['dirname'], $image2->getFilePath());
+
+            $image3 = new Image($imagePath);
+            $this->assertEquals($pathInfo['dirname'], $image3->getFilePath());
+            $this->assertEquals($imageFileExtension, $image3->getFileExtension());
+            $this->assertEquals($imageName, $image3->getFileName());
+        }
+
+        // --------------------------------------------------------- Test if the image resource was created successfully
+
+        public function testJpgImageResource()
+        {
+            $imagePath = $this->createImage('img.jpg');
+            $image = new Image($imagePath);
+            $this->assertTrue(is_resource($image->getImageResource()));
+        }
+
+        public function testPngImageResource()
+        {
+            $imagePath = $this->createImage('img.png');
+            $image = new Image($imagePath);
+            $this->assertTrue(is_resource($image->getImageResource()));
+        }
+
+        public function testGifImageResource()
+        {
+            $imagePath = $this->createImage('img.gif');
+            $image = new Image($imagePath);
+            $this->assertTrue(is_resource($image->getImageResource()));
+        }
+
         // -------------------------------------------------------------------------------- Image META information tests
 
         public function testImageMimeTypes()
@@ -103,11 +158,10 @@ namespace Thinkblue\ImageManipulation {
             }
         }
 
-        public function testImageSizeInfo()
+        public function testImageWidthInfo()
         {
             $expectedWidth = 500;
             $expectedHeight = 300;
-            $expectedAspectRatio = $expectedWidth/$expectedHeight;
 
             $this->mockImageCreatingFunctions('image/png');
             $this->mockImageSize($expectedWidth, $expectedHeight);
@@ -115,32 +169,59 @@ namespace Thinkblue\ImageManipulation {
             $image = new Image('fake image path');
 
             $this->assertEquals($expectedWidth, $image->getWidth());
+        }
+
+        public function testImageHeightInfo()
+        {
+            $expectedWidth = 500;
+            $expectedHeight = 300;
+
+            $this->mockImageCreatingFunctions('image/png');
+            $this->mockImageSize($expectedWidth, $expectedHeight);
+
+            $image = new Image('fake image path');
+
             $this->assertEquals($expectedHeight, $image->getHeight());
+        }
+
+        public function testAspectRatioInfoLandscape()
+        {
+            $expectedWidth = 500;
+            $expectedHeight = 300;
+            $expectedAspectRatio = $expectedWidth/$expectedHeight;
+
+            $this->mockImageCreatingFunctions('image/jpeg');
+            $this->mockImageSize($expectedWidth, $expectedHeight);
+
+            $image = new Image('fake image path');
             $this->assertEquals($expectedAspectRatio, $image->getAspectRatio());
         }
 
-        // ------------------------------------------------------------------------------------------------ Test helpers
-
-        private function mockImageCreatingFunctions($forcedMimeType = 'image/png')
+        public function testAspectRatioInfoPortrait()
         {
-            global $mimeContentType;
-            global $fileExists;
-            global $isFile;
+            $expectedWidth = 300;
+            $expectedHeight = 500;
+            $expectedAspectRatio = $expectedHeight/$expectedWidth;
 
-            $fileExists = true;
-            $isFile = true;
-            $mimeContentType = $forcedMimeType;
+            $this->mockImageCreatingFunctions('image/gif');
+            $this->mockImageSize($expectedWidth, $expectedHeight);
+
+            $image = new Image('fake image path');
+            $this->assertEquals($expectedAspectRatio, $image->getAspectRatio());
+        }
+        
+        public function testAspectRatioSquare()
+        {
+            $expectedWidth = 100;
+            $expectedHeight = 100;
+            $expectedAspectRatio = $expectedHeight/$expectedWidth;
+
+            $this->mockImageCreatingFunctions('image/gif');
+            $this->mockImageSize($expectedWidth, $expectedHeight);
+
+            $image = new Image('fake image path');
+            $this->assertEquals($expectedAspectRatio, $image->getAspectRatio());
         }
 
-        private function mockImageSize($width, $height)
-        {
-            global $mockGetImageSize;
-            global $mockGetImageSizeWidth;
-            global $mockGetImageSizeHeight;
-
-            $mockGetImageSize = true;
-            $mockGetImageSizeWidth = $width;
-            $mockGetImageSizeHeight = $height;
-        }
     }
 }
