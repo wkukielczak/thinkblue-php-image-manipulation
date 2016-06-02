@@ -249,6 +249,16 @@ class Image
     }
 
     /**
+     * Transformations array
+     * 
+     * @return array
+     */
+    public function getTransformations()
+    {
+        return $this->transformations;
+    }
+
+    /**
      * Apply all the requested transformations. Will return an array with the transformations report so the developer
      * has the exact feedback of what was done and what not in case of failure in one of the transformations. Sample
      * output:
