@@ -319,18 +319,5 @@ class Image
 
         return $this->transformedFileResource;
     }
-
-    /**
-     * Release all the resources
-     */
-    function __destruct()
-    {
-        if (null != $this->fileResource) {
-            imagedestroy($this->fileResource);
-        }
-        if (null != $this->transformedFileResource) {
-            imagedestroy($this->transformedFileResource);
-        }
-    }
     
 }

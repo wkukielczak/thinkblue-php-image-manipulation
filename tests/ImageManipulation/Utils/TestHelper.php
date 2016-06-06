@@ -32,19 +32,20 @@ trait TestHelper
         $targetDir = null;
         $img = imagecreatetruecolor($width, $height);
 
-        switch ($fileName) {
+        $targetDir = $tmpDir . '/' . $fileName;
+        $pathInfo = pathinfo($targetDir);
+        $extension = $pathInfo['extension'];
+
+        switch ($extension) {
             case 'png':
-                $targetDir = $tmpDir . '/' . $fileName;
                 imagepng($img, $targetDir, 0);
                 break;
             case 'gif':
-                $targetDir = $tmpDir . '/' . $fileName;
                 imagegif($img, $targetDir);
                 break;
 
             case 'jpg':
             default:
-                $targetDir = $tmpDir . '/' . $fileName;
                 imagejpeg($img, $targetDir, 100);
                 break;
         }
