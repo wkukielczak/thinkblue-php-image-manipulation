@@ -1,0 +1,26 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+
+  # Debian Jessie
+  config.vm.box = "ARTACK/debian-jessie"
+  
+  # Network settings
+  config.vm.network "private_network", ip: "10.2.0.15"
+
+  # Synced folder
+  config.vm.synced_folder "../", "/home/vagrant/scripts"
+
+  # Configuration for VirtualBox provider
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = "thinkblue-php-image-manipulation"
+    vb.cpus = 1
+    vb.memory = 512
+  end
+
+  config.vm.provision "shell", inline: <<-SHELL
+    sudo apt-get update
+    sudo apt-get install -y php5 php5-gd php5-xdebug
+  SHELL
+end

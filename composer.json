@@ -1,0 +1,36 @@
+{
+  "name": "Thinkblue PHP Image Manipulation Suite",
+  "description": "Image Manipulation Suite to manage the image files",
+  "version": "0.1.0",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Wojtek Kukiełczak",
+      "email": "wojtek@thinkblue.pl",
+      "homepage": "https://github.com/wkukielczak",
+      "role": "Developer"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Thinkblue\\": "lib/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Thinkblue\\": "tests/"
+    }
+  },
+  "require": {
+    "php": ">=5.6",
+    "ext-gd": "*"
+  },
+  "require-dev": {
+    "ext-xdebug": "*",
+    "phpunit/phpunit": "5.3.*"
+  },
+  "config": {
+    "bin-dir": "bin"
+  }
+}

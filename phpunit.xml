@@ -1,0 +1,17 @@
+<phpunit bootstrap="vendor/autoload.php">
+    <testsuites>
+        <testsuite name="ImageManipulation">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">lib/</directory>
+        </whitelist>
+    </filter>
+
+    <logging>
+        <log type="coverage-html" target="reports/coverage/" lowUpperBound="35" highUpperBound="70" />
+    </logging>
+</phpunit>
