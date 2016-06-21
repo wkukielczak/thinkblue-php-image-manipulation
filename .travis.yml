@@ -6,7 +6,6 @@ php:
 
 before_script:
   - echo 'date.timezone = "UTC"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-  - echo 'extension = "xdebug.so"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
 before_install:
   - sudo apt-get update -qq -y

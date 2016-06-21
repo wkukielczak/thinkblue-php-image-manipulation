@@ -1,10 +1,5 @@
 ###
-### Service configuration
-###
-service_name: travis-ci
-
-###
 ### Local run configuration
 ###
 coverage_clover: reports/coverage/clover.xml
-json_path: reports/logs/coveralls-upload.json
+json_path: reports/coverage/coveralls-upload.json
